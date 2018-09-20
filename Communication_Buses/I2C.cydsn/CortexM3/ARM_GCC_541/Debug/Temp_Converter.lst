@@ -1,0 +1,755 @@
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Temp_Converter.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.twosComplement,"ax",%progbits
+  20              		.align	2
+  21              		.global	twosComplement
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	twosComplement, %function
+  25              	twosComplement:
+  26              	.LFB1:
+  27              		.file 1 "Temp_Converter.c"
+   1:Temp_Converter.c **** /* ========================================
+   2:Temp_Converter.c ****  *
+   3:Temp_Converter.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:Temp_Converter.c ****  * All Rights Reserved
+   5:Temp_Converter.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:Temp_Converter.c ****  *
+   7:Temp_Converter.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:Temp_Converter.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:Temp_Converter.c ****  *
+  10:Temp_Converter.c ****  * ========================================
+  11:Temp_Converter.c **** */
+  12:Temp_Converter.c **** #include "Temp_Converter.h"
+  13:Temp_Converter.c **** 
+  14:Temp_Converter.c **** 
+  15:Temp_Converter.c **** 
+  16:Temp_Converter.c **** int8_t twosComplement(uint8_t val)
+  17:Temp_Converter.c **** {
+  28              		.loc 1 17 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+  18:Temp_Converter.c **** 	uint8_t mask = (1<<7); //Create mask
+  19:Temp_Converter.c ****     
+  20:Temp_Converter.c ****     //Do twos complement
+  21:Temp_Converter.c **** 	if (val & mask)
+  34              		.loc 1 21 0
+  35 0000 10F0800F 		tst	r0, #128
+  36 0004 03D0     		beq	.L2
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 2
+
+
+  22:Temp_Converter.c **** 	{
+  23:Temp_Converter.c **** 		return (mask | val);
+  37              		.loc 1 23 0
+  38 0006 60F07F00 		orn	r0, r0, #127
+  39              	.LVL1:
+  40 000a 40B2     		sxtb	r0, r0
+  41 000c 7047     		bx	lr
+  42              	.LVL2:
+  43              	.L2:
+  24:Temp_Converter.c **** 	}
+  25:Temp_Converter.c **** 	else
+  26:Temp_Converter.c **** 	{
+  27:Temp_Converter.c **** 		return (~mask & val);
+  44              		.loc 1 27 0
+  45 000e 00F07F00 		and	r0, r0, #127
+  46              	.LVL3:
+  28:Temp_Converter.c **** 	}
+  29:Temp_Converter.c **** }
+  47              		.loc 1 29 0
+  48 0012 7047     		bx	lr
+  49              		.cfi_endproc
+  50              	.LFE1:
+  51              		.size	twosComplement, .-twosComplement
+  52              		.global	__aeabi_i2f
+  53              		.global	__aeabi_fadd
+  54              		.section	.text.temperatureConverter,"ax",%progbits
+  55              		.align	2
+  56              		.global	temperatureConverter
+  57              		.thumb
+  58              		.thumb_func
+  59              		.type	temperatureConverter, %function
+  60              	temperatureConverter:
+  61              	.LFB2:
+  30:Temp_Converter.c **** 
+  31:Temp_Converter.c **** float temperatureConverter(uint8_t msb, uint8_t lsb)
+  32:Temp_Converter.c **** {
+  62              		.loc 1 32 0
+  63              		.cfi_startproc
+  64              		@ args = 0, pretend = 0, frame = 0
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+  66              	.LVL4:
+  67 0000 10B5     		push	{r4, lr}
+  68              		.cfi_def_cfa_offset 8
+  69              		.cfi_offset 4, -8
+  70              		.cfi_offset 14, -4
+  71 0002 0C46     		mov	r4, r1
+  72              	.LVL5:
+  33:Temp_Converter.c **** 	float pointval = 0; //Variable for storing the point value
+  34:Temp_Converter.c **** 	float temperature = twosComplement(msb); //Twos complement
+  73              		.loc 1 34 0
+  74 0004 FFF7FEFF 		bl	twosComplement
+  75              	.LVL6:
+  76 0008 FFF7FEFF 		bl	__aeabi_i2f
+  77              	.LVL7:
+  78 000c 0146     		mov	r1, r0
+  79              	.LVL8:
+  35:Temp_Converter.c **** 	if (lsb & 1<<7)
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 3
+
+
+  80              		.loc 1 35 0
+  81 000e 14F0800F 		tst	r4, #128
+  82 0012 01D1     		bne	.L6
+  33:Temp_Converter.c **** 	float pointval = 0; //Variable for storing the point value
+  83              		.loc 1 33 0
+  84 0014 0020     		movs	r0, #0
+  85              	.LVL9:
+  86 0016 01E0     		b	.L5
+  87              	.LVL10:
+  88              	.L6:
+  36:Temp_Converter.c **** 	{
+  37:Temp_Converter.c **** 		pointval = 0.5; //If msb of lower byte of the temperature is 1, set point value = 0.5
+  89              		.loc 1 37 0
+  90 0018 4FF07C50 		mov	r0, #1056964608
+  91              	.LVL11:
+  92              	.L5:
+  38:Temp_Converter.c **** 	}
+  39:Temp_Converter.c **** 	temperature += pointval; //Add the point value
+  93              		.loc 1 39 0
+  94 001c FFF7FEFF 		bl	__aeabi_fadd
+  95              	.LVL12:
+  40:Temp_Converter.c **** 	return temperature; //Return the temperature
+  41:Temp_Converter.c **** }
+  96              		.loc 1 41 0
+  97 0020 10BD     		pop	{r4, pc}
+  98              		.cfi_endproc
+  99              	.LFE2:
+ 100              		.size	temperatureConverter, .-temperatureConverter
+ 101 0022 00BF     		.text
+ 102              	.Letext0:
+ 103              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 104              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 105              		.section	.debug_info,"",%progbits
+ 106              	.Ldebug_info0:
+ 107 0000 48010000 		.4byte	0x148
+ 108 0004 0400     		.2byte	0x4
+ 109 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 110 000a 04       		.byte	0x4
+ 111 000b 01       		.uleb128 0x1
+ 112 000c 32000000 		.4byte	.LASF21
+ 113 0010 0C       		.byte	0xc
+ 114 0011 DD010000 		.4byte	.LASF22
+ 115 0015 27010000 		.4byte	.LASF23
+ 116 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 117 001d 00000000 		.4byte	0
+ 118 0021 00000000 		.4byte	.Ldebug_line0
+ 119 0025 02       		.uleb128 0x2
+ 120 0026 90010000 		.4byte	.LASF0
+ 121 002a 02       		.byte	0x2
+ 122 002b 1B       		.byte	0x1b
+ 123 002c 30000000 		.4byte	0x30
+ 124 0030 03       		.uleb128 0x3
+ 125 0031 01       		.byte	0x1
+ 126 0032 06       		.byte	0x6
+ 127 0033 AC010000 		.4byte	.LASF2
+ 128 0037 02       		.uleb128 0x2
+ 129 0038 E9000000 		.4byte	.LASF1
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 4
+
+
+ 130 003c 02       		.byte	0x2
+ 131 003d 1D       		.byte	0x1d
+ 132 003e 42000000 		.4byte	0x42
+ 133 0042 03       		.uleb128 0x3
+ 134 0043 01       		.byte	0x1
+ 135 0044 08       		.byte	0x8
+ 136 0045 24000000 		.4byte	.LASF3
+ 137 0049 03       		.uleb128 0x3
+ 138 004a 02       		.byte	0x2
+ 139 004b 05       		.byte	0x5
+ 140 004c D3010000 		.4byte	.LASF4
+ 141 0050 03       		.uleb128 0x3
+ 142 0051 02       		.byte	0x2
+ 143 0052 07       		.byte	0x7
+ 144 0053 99010000 		.4byte	.LASF5
+ 145 0057 03       		.uleb128 0x3
+ 146 0058 04       		.byte	0x4
+ 147 0059 05       		.byte	0x5
+ 148 005a 17010000 		.4byte	.LASF6
+ 149 005e 03       		.uleb128 0x3
+ 150 005f 04       		.byte	0x4
+ 151 0060 07       		.byte	0x7
+ 152 0061 C0000000 		.4byte	.LASF7
+ 153 0065 03       		.uleb128 0x3
+ 154 0066 08       		.byte	0x8
+ 155 0067 05       		.byte	0x5
+ 156 0068 00000000 		.4byte	.LASF8
+ 157 006c 03       		.uleb128 0x3
+ 158 006d 08       		.byte	0x8
+ 159 006e 07       		.byte	0x7
+ 160 006f D2000000 		.4byte	.LASF9
+ 161 0073 04       		.uleb128 0x4
+ 162 0074 04       		.byte	0x4
+ 163 0075 05       		.byte	0x5
+ 164 0076 696E7400 		.ascii	"int\000"
+ 165 007a 03       		.uleb128 0x3
+ 166 007b 04       		.byte	0x4
+ 167 007c 07       		.byte	0x7
+ 168 007d 0E000000 		.4byte	.LASF10
+ 169 0081 02       		.uleb128 0x2
+ 170 0082 20010000 		.4byte	.LASF11
+ 171 0086 03       		.byte	0x3
+ 172 0087 14       		.byte	0x14
+ 173 0088 25000000 		.4byte	0x25
+ 174 008c 02       		.uleb128 0x2
+ 175 008d FE000000 		.4byte	.LASF12
+ 176 0091 03       		.byte	0x3
+ 177 0092 18       		.byte	0x18
+ 178 0093 37000000 		.4byte	0x37
+ 179 0097 03       		.uleb128 0x3
+ 180 0098 08       		.byte	0x8
+ 181 0099 04       		.byte	0x4
+ 182 009a C7010000 		.4byte	.LASF13
+ 183 009e 03       		.uleb128 0x3
+ 184 009f 04       		.byte	0x4
+ 185 00a0 07       		.byte	0x7
+ 186 00a1 EE010000 		.4byte	.LASF14
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 5
+
+
+ 187 00a5 03       		.uleb128 0x3
+ 188 00a6 01       		.byte	0x1
+ 189 00a7 08       		.byte	0x8
+ 190 00a8 12010000 		.4byte	.LASF15
+ 191 00ac 03       		.uleb128 0x3
+ 192 00ad 08       		.byte	0x8
+ 193 00ae 04       		.byte	0x4
+ 194 00af 74010000 		.4byte	.LASF16
+ 195 00b3 03       		.uleb128 0x3
+ 196 00b4 04       		.byte	0x4
+ 197 00b5 04       		.byte	0x4
+ 198 00b6 F3000000 		.4byte	.LASF17
+ 199 00ba 05       		.uleb128 0x5
+ 200 00bb B8010000 		.4byte	.LASF24
+ 201 00bf 01       		.byte	0x1
+ 202 00c0 10       		.byte	0x10
+ 203 00c1 81000000 		.4byte	0x81
+ 204 00c5 00000000 		.4byte	.LFB1
+ 205 00c9 14000000 		.4byte	.LFE1-.LFB1
+ 206 00cd 01       		.uleb128 0x1
+ 207 00ce 9C       		.byte	0x9c
+ 208 00cf F0000000 		.4byte	0xf0
+ 209 00d3 06       		.uleb128 0x6
+ 210 00d4 76616C00 		.ascii	"val\000"
+ 211 00d8 01       		.byte	0x1
+ 212 00d9 10       		.byte	0x10
+ 213 00da 8C000000 		.4byte	0x8c
+ 214 00de 00000000 		.4byte	.LLST0
+ 215 00e2 07       		.uleb128 0x7
+ 216 00e3 F9000000 		.4byte	.LASF18
+ 217 00e7 01       		.byte	0x1
+ 218 00e8 12       		.byte	0x12
+ 219 00e9 8C000000 		.4byte	0x8c
+ 220 00ed 807F     		.sleb128 -128
+ 221 00ef 00       		.byte	0
+ 222 00f0 08       		.uleb128 0x8
+ 223 00f1 7B010000 		.4byte	.LASF25
+ 224 00f5 01       		.byte	0x1
+ 225 00f6 1F       		.byte	0x1f
+ 226 00f7 B3000000 		.4byte	0xb3
+ 227 00fb 00000000 		.4byte	.LFB2
+ 228 00ff 22000000 		.4byte	.LFE2-.LFB2
+ 229 0103 01       		.uleb128 0x1
+ 230 0104 9C       		.byte	0x9c
+ 231 0105 06       		.uleb128 0x6
+ 232 0106 6D736200 		.ascii	"msb\000"
+ 233 010a 01       		.byte	0x1
+ 234 010b 1F       		.byte	0x1f
+ 235 010c 8C000000 		.4byte	0x8c
+ 236 0110 3A000000 		.4byte	.LLST1
+ 237 0114 06       		.uleb128 0x6
+ 238 0115 6C736200 		.ascii	"lsb\000"
+ 239 0119 01       		.byte	0x1
+ 240 011a 1F       		.byte	0x1f
+ 241 011b 8C000000 		.4byte	0x8c
+ 242 011f 5B000000 		.4byte	.LLST2
+ 243 0123 09       		.uleb128 0x9
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 6
+
+
+ 244 0124 1B000000 		.4byte	.LASF19
+ 245 0128 01       		.byte	0x1
+ 246 0129 21       		.byte	0x21
+ 247 012a B3000000 		.4byte	0xb3
+ 248 012e 7C000000 		.4byte	.LLST3
+ 249 0132 09       		.uleb128 0x9
+ 250 0133 06010000 		.4byte	.LASF20
+ 251 0137 01       		.byte	0x1
+ 252 0138 22       		.byte	0x22
+ 253 0139 B3000000 		.4byte	0xb3
+ 254 013d 9F000000 		.4byte	.LLST4
+ 255 0141 0A       		.uleb128 0xa
+ 256 0142 08000000 		.4byte	.LVL6
+ 257 0146 BA000000 		.4byte	0xba
+ 258 014a 00       		.byte	0
+ 259 014b 00       		.byte	0
+ 260              		.section	.debug_abbrev,"",%progbits
+ 261              	.Ldebug_abbrev0:
+ 262 0000 01       		.uleb128 0x1
+ 263 0001 11       		.uleb128 0x11
+ 264 0002 01       		.byte	0x1
+ 265 0003 25       		.uleb128 0x25
+ 266 0004 0E       		.uleb128 0xe
+ 267 0005 13       		.uleb128 0x13
+ 268 0006 0B       		.uleb128 0xb
+ 269 0007 03       		.uleb128 0x3
+ 270 0008 0E       		.uleb128 0xe
+ 271 0009 1B       		.uleb128 0x1b
+ 272 000a 0E       		.uleb128 0xe
+ 273 000b 55       		.uleb128 0x55
+ 274 000c 17       		.uleb128 0x17
+ 275 000d 11       		.uleb128 0x11
+ 276 000e 01       		.uleb128 0x1
+ 277 000f 10       		.uleb128 0x10
+ 278 0010 17       		.uleb128 0x17
+ 279 0011 00       		.byte	0
+ 280 0012 00       		.byte	0
+ 281 0013 02       		.uleb128 0x2
+ 282 0014 16       		.uleb128 0x16
+ 283 0015 00       		.byte	0
+ 284 0016 03       		.uleb128 0x3
+ 285 0017 0E       		.uleb128 0xe
+ 286 0018 3A       		.uleb128 0x3a
+ 287 0019 0B       		.uleb128 0xb
+ 288 001a 3B       		.uleb128 0x3b
+ 289 001b 0B       		.uleb128 0xb
+ 290 001c 49       		.uleb128 0x49
+ 291 001d 13       		.uleb128 0x13
+ 292 001e 00       		.byte	0
+ 293 001f 00       		.byte	0
+ 294 0020 03       		.uleb128 0x3
+ 295 0021 24       		.uleb128 0x24
+ 296 0022 00       		.byte	0
+ 297 0023 0B       		.uleb128 0xb
+ 298 0024 0B       		.uleb128 0xb
+ 299 0025 3E       		.uleb128 0x3e
+ 300 0026 0B       		.uleb128 0xb
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 7
+
+
+ 301 0027 03       		.uleb128 0x3
+ 302 0028 0E       		.uleb128 0xe
+ 303 0029 00       		.byte	0
+ 304 002a 00       		.byte	0
+ 305 002b 04       		.uleb128 0x4
+ 306 002c 24       		.uleb128 0x24
+ 307 002d 00       		.byte	0
+ 308 002e 0B       		.uleb128 0xb
+ 309 002f 0B       		.uleb128 0xb
+ 310 0030 3E       		.uleb128 0x3e
+ 311 0031 0B       		.uleb128 0xb
+ 312 0032 03       		.uleb128 0x3
+ 313 0033 08       		.uleb128 0x8
+ 314 0034 00       		.byte	0
+ 315 0035 00       		.byte	0
+ 316 0036 05       		.uleb128 0x5
+ 317 0037 2E       		.uleb128 0x2e
+ 318 0038 01       		.byte	0x1
+ 319 0039 3F       		.uleb128 0x3f
+ 320 003a 19       		.uleb128 0x19
+ 321 003b 03       		.uleb128 0x3
+ 322 003c 0E       		.uleb128 0xe
+ 323 003d 3A       		.uleb128 0x3a
+ 324 003e 0B       		.uleb128 0xb
+ 325 003f 3B       		.uleb128 0x3b
+ 326 0040 0B       		.uleb128 0xb
+ 327 0041 27       		.uleb128 0x27
+ 328 0042 19       		.uleb128 0x19
+ 329 0043 49       		.uleb128 0x49
+ 330 0044 13       		.uleb128 0x13
+ 331 0045 11       		.uleb128 0x11
+ 332 0046 01       		.uleb128 0x1
+ 333 0047 12       		.uleb128 0x12
+ 334 0048 06       		.uleb128 0x6
+ 335 0049 40       		.uleb128 0x40
+ 336 004a 18       		.uleb128 0x18
+ 337 004b 9742     		.uleb128 0x2117
+ 338 004d 19       		.uleb128 0x19
+ 339 004e 01       		.uleb128 0x1
+ 340 004f 13       		.uleb128 0x13
+ 341 0050 00       		.byte	0
+ 342 0051 00       		.byte	0
+ 343 0052 06       		.uleb128 0x6
+ 344 0053 05       		.uleb128 0x5
+ 345 0054 00       		.byte	0
+ 346 0055 03       		.uleb128 0x3
+ 347 0056 08       		.uleb128 0x8
+ 348 0057 3A       		.uleb128 0x3a
+ 349 0058 0B       		.uleb128 0xb
+ 350 0059 3B       		.uleb128 0x3b
+ 351 005a 0B       		.uleb128 0xb
+ 352 005b 49       		.uleb128 0x49
+ 353 005c 13       		.uleb128 0x13
+ 354 005d 02       		.uleb128 0x2
+ 355 005e 17       		.uleb128 0x17
+ 356 005f 00       		.byte	0
+ 357 0060 00       		.byte	0
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 8
+
+
+ 358 0061 07       		.uleb128 0x7
+ 359 0062 34       		.uleb128 0x34
+ 360 0063 00       		.byte	0
+ 361 0064 03       		.uleb128 0x3
+ 362 0065 0E       		.uleb128 0xe
+ 363 0066 3A       		.uleb128 0x3a
+ 364 0067 0B       		.uleb128 0xb
+ 365 0068 3B       		.uleb128 0x3b
+ 366 0069 0B       		.uleb128 0xb
+ 367 006a 49       		.uleb128 0x49
+ 368 006b 13       		.uleb128 0x13
+ 369 006c 1C       		.uleb128 0x1c
+ 370 006d 0D       		.uleb128 0xd
+ 371 006e 00       		.byte	0
+ 372 006f 00       		.byte	0
+ 373 0070 08       		.uleb128 0x8
+ 374 0071 2E       		.uleb128 0x2e
+ 375 0072 01       		.byte	0x1
+ 376 0073 3F       		.uleb128 0x3f
+ 377 0074 19       		.uleb128 0x19
+ 378 0075 03       		.uleb128 0x3
+ 379 0076 0E       		.uleb128 0xe
+ 380 0077 3A       		.uleb128 0x3a
+ 381 0078 0B       		.uleb128 0xb
+ 382 0079 3B       		.uleb128 0x3b
+ 383 007a 0B       		.uleb128 0xb
+ 384 007b 27       		.uleb128 0x27
+ 385 007c 19       		.uleb128 0x19
+ 386 007d 49       		.uleb128 0x49
+ 387 007e 13       		.uleb128 0x13
+ 388 007f 11       		.uleb128 0x11
+ 389 0080 01       		.uleb128 0x1
+ 390 0081 12       		.uleb128 0x12
+ 391 0082 06       		.uleb128 0x6
+ 392 0083 40       		.uleb128 0x40
+ 393 0084 18       		.uleb128 0x18
+ 394 0085 9642     		.uleb128 0x2116
+ 395 0087 19       		.uleb128 0x19
+ 396 0088 00       		.byte	0
+ 397 0089 00       		.byte	0
+ 398 008a 09       		.uleb128 0x9
+ 399 008b 34       		.uleb128 0x34
+ 400 008c 00       		.byte	0
+ 401 008d 03       		.uleb128 0x3
+ 402 008e 0E       		.uleb128 0xe
+ 403 008f 3A       		.uleb128 0x3a
+ 404 0090 0B       		.uleb128 0xb
+ 405 0091 3B       		.uleb128 0x3b
+ 406 0092 0B       		.uleb128 0xb
+ 407 0093 49       		.uleb128 0x49
+ 408 0094 13       		.uleb128 0x13
+ 409 0095 02       		.uleb128 0x2
+ 410 0096 17       		.uleb128 0x17
+ 411 0097 00       		.byte	0
+ 412 0098 00       		.byte	0
+ 413 0099 0A       		.uleb128 0xa
+ 414 009a 898201   		.uleb128 0x4109
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 9
+
+
+ 415 009d 00       		.byte	0
+ 416 009e 11       		.uleb128 0x11
+ 417 009f 01       		.uleb128 0x1
+ 418 00a0 31       		.uleb128 0x31
+ 419 00a1 13       		.uleb128 0x13
+ 420 00a2 00       		.byte	0
+ 421 00a3 00       		.byte	0
+ 422 00a4 00       		.byte	0
+ 423              		.section	.debug_loc,"",%progbits
+ 424              	.Ldebug_loc0:
+ 425              	.LLST0:
+ 426 0000 00000000 		.4byte	.LVL0
+ 427 0004 0A000000 		.4byte	.LVL1
+ 428 0008 0100     		.2byte	0x1
+ 429 000a 50       		.byte	0x50
+ 430 000b 0A000000 		.4byte	.LVL1
+ 431 000f 0E000000 		.4byte	.LVL2
+ 432 0013 0400     		.2byte	0x4
+ 433 0015 F3       		.byte	0xf3
+ 434 0016 01       		.uleb128 0x1
+ 435 0017 50       		.byte	0x50
+ 436 0018 9F       		.byte	0x9f
+ 437 0019 0E000000 		.4byte	.LVL2
+ 438 001d 12000000 		.4byte	.LVL3
+ 439 0021 0100     		.2byte	0x1
+ 440 0023 50       		.byte	0x50
+ 441 0024 12000000 		.4byte	.LVL3
+ 442 0028 14000000 		.4byte	.LFE1
+ 443 002c 0400     		.2byte	0x4
+ 444 002e F3       		.byte	0xf3
+ 445 002f 01       		.uleb128 0x1
+ 446 0030 50       		.byte	0x50
+ 447 0031 9F       		.byte	0x9f
+ 448 0032 00000000 		.4byte	0
+ 449 0036 00000000 		.4byte	0
+ 450              	.LLST1:
+ 451 003a 00000000 		.4byte	.LVL4
+ 452 003e 07000000 		.4byte	.LVL6-1
+ 453 0042 0100     		.2byte	0x1
+ 454 0044 50       		.byte	0x50
+ 455 0045 07000000 		.4byte	.LVL6-1
+ 456 0049 22000000 		.4byte	.LFE2
+ 457 004d 0400     		.2byte	0x4
+ 458 004f F3       		.byte	0xf3
+ 459 0050 01       		.uleb128 0x1
+ 460 0051 50       		.byte	0x50
+ 461 0052 9F       		.byte	0x9f
+ 462 0053 00000000 		.4byte	0
+ 463 0057 00000000 		.4byte	0
+ 464              	.LLST2:
+ 465 005b 00000000 		.4byte	.LVL4
+ 466 005f 07000000 		.4byte	.LVL6-1
+ 467 0063 0100     		.2byte	0x1
+ 468 0065 51       		.byte	0x51
+ 469 0066 07000000 		.4byte	.LVL6-1
+ 470 006a 22000000 		.4byte	.LFE2
+ 471 006e 0400     		.2byte	0x4
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 10
+
+
+ 472 0070 F3       		.byte	0xf3
+ 473 0071 01       		.uleb128 0x1
+ 474 0072 51       		.byte	0x51
+ 475 0073 9F       		.byte	0x9f
+ 476 0074 00000000 		.4byte	0
+ 477 0078 00000000 		.4byte	0
+ 478              	.LLST3:
+ 479 007c 04000000 		.4byte	.LVL5
+ 480 0080 1C000000 		.4byte	.LVL11
+ 481 0084 0600     		.2byte	0x6
+ 482 0086 9E       		.byte	0x9e
+ 483 0087 04       		.uleb128 0x4
+ 484 0088 00000000 		.4byte	0
+ 485 008c 1C000000 		.4byte	.LVL11
+ 486 0090 1F000000 		.4byte	.LVL12-1
+ 487 0094 0100     		.2byte	0x1
+ 488 0096 50       		.byte	0x50
+ 489 0097 00000000 		.4byte	0
+ 490 009b 00000000 		.4byte	0
+ 491              	.LLST4:
+ 492 009f 0E000000 		.4byte	.LVL8
+ 493 00a3 16000000 		.4byte	.LVL9
+ 494 00a7 0100     		.2byte	0x1
+ 495 00a9 50       		.byte	0x50
+ 496 00aa 16000000 		.4byte	.LVL9
+ 497 00ae 18000000 		.4byte	.LVL10
+ 498 00b2 0100     		.2byte	0x1
+ 499 00b4 51       		.byte	0x51
+ 500 00b5 18000000 		.4byte	.LVL10
+ 501 00b9 1C000000 		.4byte	.LVL11
+ 502 00bd 0100     		.2byte	0x1
+ 503 00bf 50       		.byte	0x50
+ 504 00c0 1C000000 		.4byte	.LVL11
+ 505 00c4 1F000000 		.4byte	.LVL12-1
+ 506 00c8 0100     		.2byte	0x1
+ 507 00ca 51       		.byte	0x51
+ 508 00cb 20000000 		.4byte	.LVL12
+ 509 00cf 22000000 		.4byte	.LFE2
+ 510 00d3 0100     		.2byte	0x1
+ 511 00d5 50       		.byte	0x50
+ 512 00d6 00000000 		.4byte	0
+ 513 00da 00000000 		.4byte	0
+ 514              		.section	.debug_aranges,"",%progbits
+ 515 0000 24000000 		.4byte	0x24
+ 516 0004 0200     		.2byte	0x2
+ 517 0006 00000000 		.4byte	.Ldebug_info0
+ 518 000a 04       		.byte	0x4
+ 519 000b 00       		.byte	0
+ 520 000c 0000     		.2byte	0
+ 521 000e 0000     		.2byte	0
+ 522 0010 00000000 		.4byte	.LFB1
+ 523 0014 14000000 		.4byte	.LFE1-.LFB1
+ 524 0018 00000000 		.4byte	.LFB2
+ 525 001c 22000000 		.4byte	.LFE2-.LFB2
+ 526 0020 00000000 		.4byte	0
+ 527 0024 00000000 		.4byte	0
+ 528              		.section	.debug_ranges,"",%progbits
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 11
+
+
+ 529              	.Ldebug_ranges0:
+ 530 0000 00000000 		.4byte	.LFB1
+ 531 0004 14000000 		.4byte	.LFE1
+ 532 0008 00000000 		.4byte	.LFB2
+ 533 000c 22000000 		.4byte	.LFE2
+ 534 0010 00000000 		.4byte	0
+ 535 0014 00000000 		.4byte	0
+ 536              		.section	.debug_line,"",%progbits
+ 537              	.Ldebug_line0:
+ 538 0000 52010000 		.section	.debug_str,"MS",%progbits,1
+ 538      02002401 
+ 538      00000201 
+ 538      FB0E0D00 
+ 538      01010101 
+ 539              	.LASF8:
+ 540 0000 6C6F6E67 		.ascii	"long long int\000"
+ 540      206C6F6E 
+ 540      6720696E 
+ 540      7400
+ 541              	.LASF10:
+ 542 000e 756E7369 		.ascii	"unsigned int\000"
+ 542      676E6564 
+ 542      20696E74 
+ 542      00
+ 543              	.LASF19:
+ 544 001b 706F696E 		.ascii	"pointval\000"
+ 544      7476616C 
+ 544      00
+ 545              	.LASF3:
+ 546 0024 756E7369 		.ascii	"unsigned char\000"
+ 546      676E6564 
+ 546      20636861 
+ 546      7200
+ 547              	.LASF21:
+ 548 0032 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 548      43313120 
+ 548      352E342E 
+ 548      31203230 
+ 548      31363036 
+ 549 0065 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 549      20726576 
+ 549      6973696F 
+ 549      6E203233 
+ 549      37373135 
+ 550 0098 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 550      66756E63 
+ 550      74696F6E 
+ 550      2D736563 
+ 550      74696F6E 
+ 551              	.LASF7:
+ 552 00c0 6C6F6E67 		.ascii	"long unsigned int\000"
+ 552      20756E73 
+ 552      69676E65 
+ 552      6420696E 
+ 552      7400
+ 553              	.LASF9:
+ 554 00d2 6C6F6E67 		.ascii	"long long unsigned int\000"
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 12
+
+
+ 554      206C6F6E 
+ 554      6720756E 
+ 554      7369676E 
+ 554      65642069 
+ 555              	.LASF1:
+ 556 00e9 5F5F7569 		.ascii	"__uint8_t\000"
+ 556      6E74385F 
+ 556      7400
+ 557              	.LASF17:
+ 558 00f3 666C6F61 		.ascii	"float\000"
+ 558      7400
+ 559              	.LASF18:
+ 560 00f9 6D61736B 		.ascii	"mask\000"
+ 560      00
+ 561              	.LASF12:
+ 562 00fe 75696E74 		.ascii	"uint8_t\000"
+ 562      385F7400 
+ 563              	.LASF20:
+ 564 0106 74656D70 		.ascii	"temperature\000"
+ 564      65726174 
+ 564      75726500 
+ 565              	.LASF15:
+ 566 0112 63686172 		.ascii	"char\000"
+ 566      00
+ 567              	.LASF6:
+ 568 0117 6C6F6E67 		.ascii	"long int\000"
+ 568      20696E74 
+ 568      00
+ 569              	.LASF11:
+ 570 0120 696E7438 		.ascii	"int8_t\000"
+ 570      5F7400
+ 571              	.LASF23:
+ 572 0127 433A5C55 		.ascii	"C:\\Users\\mrgas\\Documents\\PSoC Creator\\Projects"
+ 572      73657273 
+ 572      5C6D7267 
+ 572      61735C44 
+ 572      6F63756D 
+ 573 0155 5C436F6D 		.ascii	"\\Communication_Buses\\I2C.cydsn\000"
+ 573      6D756E69 
+ 573      63617469 
+ 573      6F6E5F42 
+ 573      75736573 
+ 574              	.LASF16:
+ 575 0174 646F7562 		.ascii	"double\000"
+ 575      6C6500
+ 576              	.LASF25:
+ 577 017b 74656D70 		.ascii	"temperatureConverter\000"
+ 577      65726174 
+ 577      75726543 
+ 577      6F6E7665 
+ 577      72746572 
+ 578              	.LASF0:
+ 579 0190 5F5F696E 		.ascii	"__int8_t\000"
+ 579      74385F74 
+ 579      00
+ 580              	.LASF5:
+ 581 0199 73686F72 		.ascii	"short unsigned int\000"
+ARM GAS  C:\Users\mrgas\AppData\Local\Temp\cctA1vzf.s 			page 13
+
+
+ 581      7420756E 
+ 581      7369676E 
+ 581      65642069 
+ 581      6E7400
+ 582              	.LASF2:
+ 583 01ac 7369676E 		.ascii	"signed char\000"
+ 583      65642063 
+ 583      68617200 
+ 584              	.LASF24:
+ 585 01b8 74776F73 		.ascii	"twosComplement\000"
+ 585      436F6D70 
+ 585      6C656D65 
+ 585      6E7400
+ 586              	.LASF13:
+ 587 01c7 6C6F6E67 		.ascii	"long double\000"
+ 587      20646F75 
+ 587      626C6500 
+ 588              	.LASF4:
+ 589 01d3 73686F72 		.ascii	"short int\000"
+ 589      7420696E 
+ 589      7400
+ 590              	.LASF22:
+ 591 01dd 54656D70 		.ascii	"Temp_Converter.c\000"
+ 591      5F436F6E 
+ 591      76657274 
+ 591      65722E63 
+ 591      00
+ 592              	.LASF14:
+ 593 01ee 73697A65 		.ascii	"sizetype\000"
+ 593      74797065 
+ 593      00
+ 594              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

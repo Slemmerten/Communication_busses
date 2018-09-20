@@ -1,0 +1,7 @@
+C:\Users\mrgas\Documents\PSoC Creator\Projects\Communication_Buses\I2C.cydsn\I2C.cyprj|1bbff6cf-155a-4c28-870b-a993ee0a41e6
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|d566be65-46f0-4e0d-a0ab-291c72cc1264
+C:\Users\mrgas\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|d1a70d44-8fe6-4f04-9312-d1fd187f526a
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|4001162d-902a-4587-a7f0-99826c675980
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|5cf04a64-1350-40fd-b2ea-b23e45aeceb8
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|c987db3d-ab56-4e66-ae4b-9b59bf044dd0
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\dev\psoc3\AnalogDevice\PSoC35AnalogDevice.cylib\PSoC35AnalogDevice.cyprj|294de228-7d36-43a4-8d0d-2bc9c9e45f1e
